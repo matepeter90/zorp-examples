@@ -39,9 +39,17 @@ def zorp_instance():
             proxy_class=HttpProxy,
             router=TransparentRouter()
     )
+    Service(name="service_http_transparent_directed",
+            proxy_class=HttpProxy,
+            router=DirectedRouter(dest_addr=SockAddrInet('172.16.20.254', 80))
+    )
 
     Rule(service='service_http_transparent',
          dst_port=80,
          src_zone=('clients', ),
          dst_zone=('servers', )
+    )
+    Rule(service='service_http_transparent_directed',
+         dst_port=8080,
+         src_zone=('clients', )
     )
