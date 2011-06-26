@@ -19,6 +19,8 @@
 
 from Zorp.Core import *
 
+from Zorp.Http import *
+
 InetZone(name="clients",
          addrs=["172.16.10.0/23", ],
          inbound_services=["*"],
@@ -32,4 +34,14 @@ InetZone(name="servers",
         )
 
 def zorp_instance():
-    pass
+    #http services
+    Service(name='service_http_transparent',
+            proxy_class=HttpProxy,
+            router=TransparentRouter()
+    )
+
+    Rule(service='service_http_transparent',
+         dst_port=80,
+         src_zone=('clients', ),
+         dst_zone=('servers', )
+    )
