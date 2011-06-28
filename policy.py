@@ -43,6 +43,10 @@ def zorp_instance():
             proxy_class=HttpProxy,
             router=DirectedRouter(dest_addr=SockAddrInet('172.16.20.254', 80))
     )
+    Service(name="service_http_nontransparent_inband",
+            proxy_class=HttpProxyNonTransparent,
+            router=InbandRouter(forge_port=TRUE)
+    )
 
     Rule(service='service_http_transparent',
          dst_port=80,
@@ -51,5 +55,10 @@ def zorp_instance():
     )
     Rule(service='service_http_transparent_directed',
          dst_port=8080,
+         src_zone=('clients', )
+    )
+    Rule(service='service_http_nontransparent_inband',
+         dst_port=50080,
+         dst_subnet=('172.16.10.254', ),
          src_zone=('clients', )
     )
