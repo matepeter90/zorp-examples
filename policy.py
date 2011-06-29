@@ -19,6 +19,7 @@
 
 from Zorp.Core import *
 
+from Zorp.Ftp import *
 from Zorp.Http import *
 
 InetZone(name="clients",
@@ -48,6 +49,12 @@ def zorp_instance():
             router=InbandRouter(forge_port=TRUE)
     )
 
+    #ftp services
+    Service(name="service_ftp_transparent",
+            proxy_class=FtpProxyRO,
+            router=TransparentRouter()
+    )
+
     Rule(service='service_http_transparent',
          dst_port=80,
          src_zone=('clients', ),
@@ -61,4 +68,10 @@ def zorp_instance():
          dst_port=50080,
          dst_subnet=('172.16.10.254', ),
          src_zone=('clients', )
+    )
+
+    Rule(service='service_ftp_transparent',
+         dst_port=21,
+         src_zone=('clients', ),
+         dst_zone=('servers', )
     )
