@@ -34,6 +34,11 @@ InetZone(name="servers",
          outbound_services=["*"]
         )
 
+class FtpProxyNonTransparent(FtpProxy):
+    def config(self):
+        FtpProxy.config(self)
+        self.transparent_mode=FALSE
+
 def zorp_instance():
     #http services
     Service(name='service_http_transparent',
@@ -53,6 +58,10 @@ def zorp_instance():
     Service(name="service_ftp_transparent",
             proxy_class=FtpProxyRO,
             router=TransparentRouter()
+    )
+    Service(name="service_ftp_nontransparent_inband",
+            proxy_class=FtpProxyNonTransparent,
+            router=InbandRouter(forge_port=TRUE)
     )
 
     Rule(service='service_http_transparent',
@@ -74,4 +83,9 @@ def zorp_instance():
          dst_port=21,
          src_zone=('clients', ),
          dst_zone=('servers', )
+    )
+    Rule(service='service_ftp_nontransparent_inband',
+         dst_port=50021,
+         dst_subnet=('172.16.10.254', ),
+         src_zone=('clients', )
     )
