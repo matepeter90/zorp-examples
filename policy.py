@@ -275,6 +275,11 @@ class HttpProxyStackTr(HttpProxy):
         
         return HTTP_HDR_ACCEPT
 
+class FtpProxyStackClamav(FtpProxy):
+    def config(self):
+        FtpProxy.config(self)
+        self.request_stack["RETR"]=(FTP_STK_DATA, (Z_STACK_PROGRAM, '/etc/zorp/scripts/clamav_stack.py'))
+
 def stack_instance():
     Service(name="service_http_transparent_stack_clamav",
         proxy_class=HttpProxyStackClamav,
@@ -288,9 +293,18 @@ def stack_instance():
         proxy_class=HttpProxyStackTr,
         router=TransparentRouter()
     )
+    Service(name="service_ftp_transparent_stack_clamav",
+        proxy_class=FtpProxyStackClamav,
+        router=TransparentRouter()
+    )
 
     Rule(service='service_http_transparent_stack_clamav',
          dst_port=80,
+         src_zone=('clients', ),
+         dst_zone=('servers.stack_clamav', )
+    )
+    Rule(service='service_ftp_transparent_stack_clamav',
+         dst_port=21,
          src_zone=('clients', ),
          dst_zone=('servers.stack_clamav', )
     )
