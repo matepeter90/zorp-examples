@@ -79,6 +79,18 @@ InetZone(name="servers.http_stack_tr",
          admin_parent="servers"
         )
 
+InetZone(name="servers.http_header_replace",
+         addrs=["172.16.21.25/32", ],
+         inbound_services=["*"],
+         outbound_services=["*"],
+         admin_parent="servers"
+        )
+
+class HttpProxyHeaderReplace(HttpProxy):
+    def config(self):
+        HttpProxy.config(self)
+        self.request_header["User-Agent"] = (HTTP_HDR_CHANGE_VALUE, "Forged Browser 1.0")
+
 class FtpProxyNonTransparent(FtpProxy):
     def config(self):
         FtpProxy.config(self)
@@ -112,6 +124,10 @@ def zorp_instance():
     Service(name="service_http_transparent_directed",
             proxy_class=HttpProxy,
             router=DirectedRouter(dest_addr=SockAddrInet('172.16.20.254', 80))
+    )
+    Service(name="service_http_transparent_header_replace",
+        proxy_class=HttpProxyHeaderReplace,
+        router=TransparentRouter()
     )
     Service(name="service_http_nontransparent_inband",
             proxy_class=HttpProxyNonTransparent,
@@ -150,6 +166,11 @@ def zorp_instance():
     Rule(service='service_http_transparent_directed',
          dst_port=8080,
          src_zone=('clients', )
+    )
+    Rule(service='service_http_transparent_header_replace',
+         dst_port=80,
+         src_zone=('clients', ),
+         dst_zone=('servers.http_header_replace', )
     )
     Rule(service='service_http_nontransparent_inband',
          dst_port=50080,
