@@ -18,6 +18,7 @@
 #############################################################################
 
 from Zorp.Core import *
+from Zorp.Proxy import *
 
 from Zorp.Ftp import *
 from Zorp.Http import *
@@ -80,6 +81,12 @@ def zorp_instance():
             router=InbandRouter(forge_port=TRUE)
     )
 
+    #smtp services
+    Service(name="service_smtp_transparent",
+        proxy_class=SmtpProxy,
+        router=TransparentRouter()
+    )
+
     Rule(service='service_http_transparent',
          dst_port=80,
          src_zone=('clients', ),
@@ -104,6 +111,12 @@ def zorp_instance():
          dst_port=50021,
          dst_subnet=('172.16.10.254', ),
          src_zone=('clients', )
+    )
+
+    Rule(service='service_smtp_transparent',
+         dst_port=25,
+         src_zone=('clients'),
+         dst_zone=('servers')
     )
 
 def audit_instance():
