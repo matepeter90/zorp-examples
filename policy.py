@@ -72,6 +72,13 @@ InetZone(name="servers.http_stack_cat",
          admin_parent="servers"
         )
 
+InetZone(name="servers.http_stack_tr",
+         addrs=["172.16.21.21/32", ],
+         inbound_services=["*"],
+         outbound_services=["*"],
+         admin_parent="servers"
+        )
+
 class FtpProxyNonTransparent(FtpProxy):
     def config(self):
         FtpProxy.config(self)
@@ -227,6 +234,26 @@ class HttpProxyStackCat(HttpProxy):
         HttpProxy.config(self)
         self.response_stack["GET"] = (HTTP_STK_DATA, (Z_STACK_PROGRAM, '/bin/cat'))
 
+class HttpProxyStackTr(HttpProxy):
+    def config(self):
+        HttpProxy.config(self)
+        self.request_header["Accept-Encoding"] = (HTTP_HDR_POLICY, self.processAcceptEncoding)
+        self.response_stack["GET"] = (HTTP_STK_DATA, (Z_STACK_PROGRAM, '/usr/bin/tr \'[a-z]\' \'[A-Z]\''))
+
+    def processAcceptEncoding(self, name, value):
+        lst_value = value.split(',')
+        if 'gzip' in lst_value:
+            lst_value.remove('gzip')
+        if 'bzip' in lst_value:
+            lst_value.remove('bzip')
+        if 'bzip2' in lst_value:
+            lst_value.remove('bzip2')
+        if 'compress' in lst_value:
+            lst_value.remove('compress')
+        self.current_header_value = ','.join(lst_value)
+        
+        return HTTP_HDR_ACCEPT
+
 def stack_instance():
     Service(name="service_http_transparent_stack_clamav",
         proxy_class=HttpProxyStackClamav,
@@ -234,6 +261,10 @@ def stack_instance():
     )
     Service(name="service_http_transparent_stack_cat",
         proxy_class=HttpProxyStackCat,
+        router=TransparentRouter()
+    )
+    Service(name="service_http_transparent_stack_tr",
+        proxy_class=HttpProxyStackTr,
         router=TransparentRouter()
     )
 
@@ -246,4 +277,9 @@ def stack_instance():
          dst_port=80,
          src_zone=('clients', ),
          dst_zone=('servers.http_stack_cat', )
+    )
+    Rule(service='service_http_transparent_stack_tr',
+         dst_port=80,
+         src_zone=('clients', ),
+         dst_zone=('servers.http_stack_tr', )
     )
