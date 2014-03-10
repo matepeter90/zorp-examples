@@ -20,6 +20,10 @@
 from Zorp.Core import *
 
 
+InetZone(name="internet",
+	 addrs=["0.0.0.0/0", ],
+	)
+
 InetZone(name="clients",
      addr=["172.16.10.0/23", ],
      inbound_services=["*"],
