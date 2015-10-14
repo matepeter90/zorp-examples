@@ -20,17 +20,17 @@
 from Zorp.Core import *
 
 
-InetZone(name="internet",
+Zone(name="internet",
 	 addrs=["0.0.0.0/0", ],
 	)
 
-InetZone(name="clients",
+Zone(name="clients",
      addr=["172.16.10.0/23", ],
      inbound_services=["*"],
      outbound_services=["*"]
     )
 
-InetZone(name="servers",
+Zone(name="servers",
      addr=["172.16.20.0/23", ],
      inbound_services=["*"],
      outbound_services=["*"]

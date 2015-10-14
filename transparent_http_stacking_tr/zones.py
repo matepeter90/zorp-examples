@@ -20,19 +20,19 @@
 from Zorp.Core import *
 
 
-InetZone(name="clients",
+Zone(name="clients",
      addr=["172.16.10.0/23", ],
      inbound_services=["*"],
      outbound_services=["*"]
     )
 
-InetZone(name="servers",
+Zone(name="servers",
      addr=["172.16.20.0/23", ],
      inbound_services=["*"],
      outbound_services=["*"]
     )
 
-InetZone(name="servers.http_stack_tr",
+Zone(name="servers.http_stack_tr",
          addrs=["172.16.21.21/32", ],
          inbound_services=["*"],
          outbound_services=["*"],
