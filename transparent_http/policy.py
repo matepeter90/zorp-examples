@@ -20,12 +20,12 @@ from zones import *
 def zorp_instance():
     #http services
     Service(name='service_http_transparent',
-            proxy_class=HttpProxy,
-            router=TransparentRouter()
+            proxy_class = HttpProxy,
+            router = TransparentRouter()
     )
 
     Rule(service='service_http_transparent',
-         dst_port=80,
-         src_zone=('clients', ),
-         dst_zone=('servers', )
+         dst_port = 80,
+         src_zone = ('clients', ),
+         dst_zone = ('servers', )
     )

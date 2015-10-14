@@ -20,12 +20,12 @@ from zones import *
 def zorp_instance():
     #ftp services
     Service(name="service_ftp_transparent",
-            proxy_class=FtpProxyRO,
-            router=TransparentRouter()
+            proxy_class = FtpProxyRO,
+            router = TransparentRouter()
     )
 
     Rule(service='service_ftp_transparent',
-         dst_port=21,
-         src_zone=('clients', ),
-         dst_zone=('servers', )
+         dst_port = 21,
+         src_zone = ('clients', ),
+         dst_zone = ('servers', )
     )

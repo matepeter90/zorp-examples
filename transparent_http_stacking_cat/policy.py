@@ -24,12 +24,12 @@ class HttpProxyStackCat(HttpProxy):
 
 def stack_instance():
     Service(name="service_http_transparent_stack_cat",
-        proxy_class=HttpProxyStackCat,
-        router=TransparentRouter()
+        proxy_class = HttpProxyStackCat,
+        router = TransparentRouter()
     )
 
     Rule(service='service_http_transparent_stack_cat',
-         dst_port=80,
-         src_zone=('clients', ),
-         dst_zone=('servers.http_stack_cat', )
+         dst_port = 80,
+         src_zone = ('clients', ),
+         dst_zone = ('servers.http_stack_cat', )
     )

@@ -25,12 +25,12 @@ class HttpProxyStackClamav(HttpProxy):
 
 def stack_instance():
     Service(name="service_http_transparent_stack_clamav",
-        proxy_class=HttpProxyStackClamav,
-        router=TransparentRouter()
+        proxy_class = HttpProxyStackClamav,
+        router = TransparentRouter()
     )
 
     Rule(service='service_http_transparent_stack_clamav',
-         dst_port=80,
-         src_zone=('clients', ),
-         dst_zone=('servers.stack_clamav', )
+         dst_port = 80,
+         src_zone = ('clients', ),
+         dst_zone = ('servers.stack_clamav', )
     )

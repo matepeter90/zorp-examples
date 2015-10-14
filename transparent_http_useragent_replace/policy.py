@@ -24,12 +24,12 @@ class HttpProxyHeaderReplace(HttpProxy):
 
 def zorp_instance():
     Service(name="service_http_transparent_header_replace",
-        proxy_class=HttpProxyHeaderReplace,
-        router=TransparentRouter()
+        proxy_class = HttpProxyHeaderReplace,
+        router = TransparentRouter()
     )
 
     Rule(service='service_http_transparent_header_replace',
-         dst_port=80,
-         src_zone=('clients', ),
-         dst_zone=('servers.http_header_replace', )
+         dst_port = 80,
+         src_zone = ('clients', ),
+         dst_zone = ('servers.http_header_replace', )
     )

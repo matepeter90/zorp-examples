@@ -28,7 +28,7 @@ from zones import *
 import DataHandler
 import Cypher
 
-config.options.kzorp_enabled=FALSE
+config.options.kzorp_enabled = FALSE
 
 class CloudEncryptionStackedProxy(AnyPyProxy):
     def config(self):
@@ -82,42 +82,42 @@ class CloudEncryptionSSLProxy(HttpProxy):
     def config(self):
         HttpProxy.config(self)
 
-        self.transparent_mode=TRUE
+        self.transparent_mode = TRUE
 
-        self.ssl.handshake_seq=SSL_HSO_SERVER_CLIENT
-        self.ssl.key_generator=X509KeyBridge(
-                key_file="/etc/zorp/keybridge/key.pem",
-                key_passphrase="passphrase",
-                cache_directory="/var/lib/zorp/keybridge-cache",
-                trusted_ca_files=(
+        self.ssl.handshake_seq = SSL_HSO_SERVER_CLIENT
+        self.ssl.key_generator = X509KeyBridge(
+                key_file = "/etc/zorp/keybridge/key.pem",
+                key_passphrase = "passphrase",
+                cache_directory = "/var/lib/zorp/keybridge-cache",
+                trusted_ca_files = (
                         "/etc/zorp/keybridge/ZorpGPL_TrustedCA.cert.pem",
                         "/etc/zorp/keybridge/ZorpGPL_TrustedCA.key.pem",
                         "passphrase"
                 ),
-                untrusted_ca_files=(
+                untrusted_ca_files = (
                         "/etc/zorp/keybridge/ZorpGPL_UnTrustedCA.cert.pem",
                         "/etc/zorp/keybridge/ZorpGPL_UnTrustedCA.key.pem",
                         "passphrase"
                 )
         )
 
-        self.ssl.client_connection_security=SSL_FORCE_SSL
-        self.ssl.client_keypair_generate=TRUE
-        self.ssl.client_ssl_method=SSL_METHOD_ALL
-        self.ssl.client_disable_proto_sslv2=TRUE
+        self.ssl.client_connection_security = SSL_FORCE_SSL
+        self.ssl.client_keypair_generate = TRUE
+        self.ssl.client_ssl_method = SSL_METHOD_ALL
+        self.ssl.client_disable_proto_sslv2 = TRUE
 
-        self.ssl.server_connection_security=SSL_FORCE_SSL
-        self.ssl.server_verify_depth=5
-        self.ssl.server_verify_type=SSL_VERIFY_NONE
-        self.ssl.client_verify_type=SSL_VERIFY_NONE
-        self.ssl.server_check_subject=FALSE
+        self.ssl.server_connection_security = SSL_FORCE_SSL
+        self.ssl.server_verify_depth = 5
+        self.ssl.server_verify_type = SSL_VERIFY_NONE
+        self.ssl.client_verify_type = SSL_VERIFY_NONE
+        self.ssl.server_check_subject = FALSE
 
 
 class CloudEncryptionHttpsProxy(CloudEncryptionSSLProxy):
     def config(self):
         CloudEncryptionSSLProxy.config(self)
 
-        self.request_header["Accept-Encoding"]=(HTTP_HDR_CHANGE_VALUE, "identity")
+        self.request_header["Accept-Encoding"] = (HTTP_HDR_CHANGE_VALUE, "identity")
         self.rewrite_host_header = FALSE
 
         self.request["GET"] = (HTTP_REQ_POLICY, self.filterOutIrrelevanTraffic)
@@ -139,8 +139,8 @@ class CloudEncryptionHttpsGoogleCalendarProxy(CloudEncryptionHttpsProxy):
 class CloudEncryptionHttpNonTransparentProxy(HttpProxyNonTransparent):
     def config(self):
         HttpProxyNonTransparent.config(self)
-        self.connect_proxy=CloudEncryptionHttpsGoogleCalendarProxy
-        self.request["*"]=HTTP_REQ_ACCEPT
+        self.connect_proxy = CloudEncryptionHttpsGoogleCalendarProxy
+        self.request["*"] = HTTP_REQ_ACCEPT
 
 
 def cloud_encryption_instance():

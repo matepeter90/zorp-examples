@@ -19,12 +19,12 @@ from zones import *
 
 def zorp_instance():
     Service(name="service_http_nontransparent_inband",
-            proxy_class=HttpProxyNonTransparent,
-            router=InbandRouter(forge_port=TRUE)
+            proxy_class = HttpProxyNonTransparent,
+            router = InbandRouter(forge_port=TRUE)
     )
 
     Rule(service='service_http_nontransparent_inband',
-         dst_port=50080,
-         dst_subnet=('172.16.10.254', ),
-         src_zone=('clients', )
+         dst_port = 50080,
+         dst_subnet = ('172.16.10.254', ),
+         src_zone = ('clients', )
     )

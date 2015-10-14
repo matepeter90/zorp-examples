@@ -22,12 +22,12 @@ from zones import *
 def zorp_instance():
     #smtp services
     Service(name="service_smtp_transparent",
-        proxy_class=SmtpProxy,
-        router=TransparentRouter()
+        proxy_class = SmtpProxy,
+        router = TransparentRouter()
     )
 
     Rule(service='service_smtp_transparent',
-         dst_port=25,
-         src_zone=('clients'),
-         dst_zone=('servers')
+         dst_port = 25,
+         src_zone = ('clients'),
+         dst_zone = ('servers')
     )

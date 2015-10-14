@@ -22,10 +22,10 @@ from zones import *
 class SmtpProxyStartTls(SmtpProxy):
     def config(self):
         SmtpProxy.config(self)
-        self.relay_zones=("*",)
+        self.relay_zones = ("*",)
         self.ssl.client_connection_security = SSL_ACCEPT_STARTTLS
         self.ssl.client_verify_type = SSL_VERIFY_OPTIONAL_UNTRUSTED
-        self.ssl.client_keypair_files=(
+        self.ssl.client_keypair_files = (
                            "/etc/ssl/certs/ssl-cert-snakeoil.pem",
                            "/etc/ssl/private/ssl-cert-snakeoil.key"
                                               )
@@ -33,12 +33,12 @@ class SmtpProxyStartTls(SmtpProxy):
 
 def zorp_instance():
     Service(name="service_smtp_transparent_starttls",
-        proxy_class=SmtpProxyStartTls,
-        router=TransparentRouter()
+        proxy_class = SmtpProxyStartTls,
+        router = TransparentRouter()
     )
 
     Rule(service='service_smtp_transparent_starttls',
-         dst_port=25,
-         src_zone=('clients'),
-         dst_zone=('servers.smtp_starttls')
+         dst_port = 25,
+         src_zone = ('clients'),
+         dst_zone = ('servers.smtp_starttls')
     )

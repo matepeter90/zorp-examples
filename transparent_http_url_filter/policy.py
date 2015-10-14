@@ -30,12 +30,12 @@ class HttpProxyUrlFilter(HttpProxy):
 
 def zorp_instance():
     Service(name="service_http_transparent_url_filter",
-        proxy_class=HttpProxyUrlFilter,
-        router=TransparentRouter()
+        proxy_class = HttpProxyUrlFilter,
+        router = TransparentRouter()
     )
 
     Rule(service='service_http_transparent_url_filter',
-         dst_port=80,
-         src_zone=('clients', ),
-         dst_zone=('servers.http_url_filter', )
+         dst_port = 80,
+         src_zone = ('clients', ),
+         dst_zone = ('servers.http_url_filter', )
     )

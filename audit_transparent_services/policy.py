@@ -22,39 +22,39 @@ from zones import *
 
 def audit_instance():
     Service(name="service_ftp_transparent_audit",
-        proxy_class=FtpProxy,
-        router=TransparentRouter()
+        proxy_class = FtpProxy,
+        router = TransparentRouter()
     )
     Service(name="service_http_transparent_audit",
-        proxy_class=HttpProxy,
-        router=TransparentRouter()
+        proxy_class = HttpProxy,
+        router = TransparentRouter()
     )
     Service(name="service_pop3_transparent_audit",
-        proxy_class=Pop3Proxy,
-        router=TransparentRouter()
+        proxy_class = Pop3Proxy,
+        router = TransparentRouter()
     )
     Service(name="service_smtp_transparent_audit",
-        proxy_class=SmtpProxy,
-        router=TransparentRouter()
+        proxy_class = SmtpProxy,
+        router = TransparentRouter()
     )
 
     Rule(service='service_ftp_transparent_audit',
-         dst_port=21,
-         src_zone=('clients', ),
-         dst_zone=('servers.audit', )
+         dst_port = 21,
+         src_zone = ('clients', ),
+         dst_zone = ('servers.audit', )
     )
     Rule(service='service_http_transparent_audit',
-         dst_port=80,
-         src_zone=('clients', ),
-         dst_zone=('servers.audit', )
+         dst_port = 80,
+         src_zone = ('clients', ),
+         dst_zone = ('servers.audit', )
     )
     Rule(service='service_pop3_transparent_audit',
-         dst_port=110,
-         src_zone=('clients', ),
-         dst_zone=('servers.audit', )
+         dst_port = 110,
+         src_zone = ('clients', ),
+         dst_zone = ('servers.audit', )
     )
     Rule(service='service_smtp_transparent_audit',
-         dst_port=25,
-         src_zone=('clients', ),
-         dst_zone=('servers.audit', )
+         dst_port = 25,
+         src_zone = ('clients', ),
+         dst_zone = ('servers.audit', )
     )

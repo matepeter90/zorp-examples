@@ -40,11 +40,11 @@ class HttpProxyStackTr(HttpProxy):
 
 def stack_instance():
     Service(name="service_http_transparent_stack_tr",
-        proxy_class=HttpProxyStackTr,
-        router=TransparentRouter()
+        proxy_class = HttpProxyStackTr,
+        router = TransparentRouter()
     )
     Rule(service='service_http_transparent_stack_tr',
-         dst_port=80,
-         src_zone=('clients', ),
-         dst_zone=('servers.http_stack_tr', )
+         dst_port = 80,
+         src_zone = ('clients', ),
+         dst_zone = ('servers.http_stack_tr', )
     )
