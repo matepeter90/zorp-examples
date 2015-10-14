@@ -26,12 +26,8 @@ Zone(name="internet",
 
 Zone(name="clients",
      addr=["172.16.10.0/23", ],
-     inbound_services=["*"],
-     outbound_services=["*"]
     )
 
 Zone(name="servers",
      addr=["172.16.20.0/23", ],
-     inbound_services=["*"],
-     outbound_services=["*"]
     )

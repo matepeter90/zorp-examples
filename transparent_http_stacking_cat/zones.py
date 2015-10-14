@@ -22,20 +22,14 @@ from Zorp.Core import *
 
 Zone(name="clients",
      addr=["172.16.10.0/23", ],
-     inbound_services=["*"],
-     outbound_services=["*"]
     )
 
 Zone(name="servers",
      addr=["172.16.20.0/23", ],
-     inbound_services=["*"],
-     outbound_services=["*"]
     )
 
 Zone(name="servers.http_stack_cat",
          addrs=["172.16.21.17/32", ],
-         inbound_services=["*"],
-         outbound_services=["*"],
          admin_parent="servers"
         )
 
